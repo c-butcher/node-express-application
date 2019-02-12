@@ -2,6 +2,32 @@ doctype html
 html
   head
     title= title
+    link(rel="shortcut icon" type="image/png" href="/images/favicon.ico")
+
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+
+    script(src="//code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous")
+    script(src="//stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous")
+  body(class="d-flex flex-column vh-100")
+    block menu
+      header(class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-0 bg-white border-bottom shadow-sm")
+        div(class="my-0 mr-md-auto font-weight-normal w-100")
+          span(class="bg-primary text-white rounded px-3 py-2 mr-2 float-left") E
+          div(class="lh-100 float-left")
+            h6(class="mb-0") #{title}
+            small Since #{new Date().getFullYear()}
+
+        nav(class="my-2 my-md-0 mr-md-3")
+          a(class="p-2 text-dark" href="#") Features
+
+        a(class="btn btn-outline-primary" href="#") Login
+
+    section(class="container")
+      block content
+
+    footer(class="footer mt-auto py-3 border-top")
+      block footer
+        div(class="container")
+          span(class="text-muted") Copyright &copy; #{new Date().getFullYear()} Chris Butcher

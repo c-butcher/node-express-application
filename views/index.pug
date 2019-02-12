@@ -1,5 +1,26 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div(class="my-3 p-3 bg-white border rounded shadow-sm")
+    h6(class="border-bottom border-gray pb-2 mb-0") Recent updates
+
+    div(class="media text-muted pt-3")
+      span(class="bg-primary text-white rounded px-3 py-2 mr-2") C
+      p(class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray")
+        strong(class="d-block text-gray-dark") @chris
+        | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+
+    div(class="media text-muted pt-3")
+      span(class="bg-success text-white rounded px-3 py-2 mr-2") T
+      p(class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray")
+        strong(class="d-block text-gray-dark") @tim
+        | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+
+    div(class="media text-muted pt-3")
+      span(class="bg-warning text-dark rounded px-3 py-2 mr-2") G
+      p(class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray")
+        strong(class="d-block text-gray-dark") @gina
+        | Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+
+    small(class="d-block text-right mt-3")
+      a(href="#") All updates
