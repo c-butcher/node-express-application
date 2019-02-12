@@ -1,22 +1,37 @@
-# NodeJS Application
-This is a generic NodeJS application that contains basic user features.
+# Node / Express Application
+This is a basic [ExpressJS](https://expressjs.com) application that contains a user authentication system
+using [PassportJS](https://passportjs.org) and [MongoDB](https://mongodb.com).
 
-+ NodeJS
-+ Express
-+ Passport
-+ MongoDB
-+ Mongoose
+The available authentication methods are limited to...
+
++ Google+
++ Facebook
++ Twitter
 
 ### Installation
+First you'll want to download the application to your local machine...
 
 ```bash
 > git clone https://github.com/c-butcher/node-express-application.git
 ```
 
+If you have another repository that you want to push your application to, then you can change the origin
+url using the following command. You'll also need to change the url to an actual repository for the
+command to work.
+
 ```bash
 > git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
 ```
 
+If you don't have a repository that you can push to, then you'll still want to disconnect from the
+`node-express-application` repository. This is because the `node-express-application` is a closed repository
+that doesn't allow public pushes.
+
+```bash
+> git remote remove origin
+```
+
+Then you'll need to install all of the vendor scripts that are required for the application to run.
 ```bash
 > npm install
 ```
