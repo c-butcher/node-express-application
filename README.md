@@ -1,8 +1,8 @@
 # Node / Express Application
-This is a basic [ExpressJS](https://expressjs.com) application that contains a user authentication system
+This is a simple [ExpressJS](https://expressjs.com) application with a [Bootstrap](https://getbootstrap.com) theme and basic user authentication system
 using [PassportJS](https://passportjs.org) and [MongoDB](https://mongodb.com).
 
-The available authentication methods are limited to...
+Available authentication methods...
 
 + Google+
 + Facebook
