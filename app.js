@@ -1,5 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
+const validator = require('express-validator');
+const validation = require('./validation');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -13,6 +15,8 @@ require('dotenv').config();
 
 // Configure our environment
 app.use(cookieParser());
+app.use(validator());
+app.use(validation());
 app.use(session());
 app.use(database());
 app.use(flash());
@@ -28,6 +32,7 @@ app.set('view engine', 'pug');
 // Load all of our routes
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/auth/local'));
+app.use('/signup', require('./routes/auth/signup'));
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
