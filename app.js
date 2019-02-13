@@ -1,36 +1,36 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var indexRouter = require('./routes/index');
-var loginRouter = require('./routes/auth/local');
-
-var app = express();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const database = require('./database');
+const app = express();
 
 // Load our environment variables
 require('dotenv').config();
-console.log(process.env);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
+// Configure our environment
+app.use(database());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/login', loginRouter);
+// Configure the view engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-// catch 404 and forward to error handler
+// Load all of our routes
+app.use('/', require('./routes/index'));
+app.use('/login', require('./routes/auth/local'));
+
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Handle Errors
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
