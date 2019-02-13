@@ -4,6 +4,6 @@
 
 .alerts {
   position: fixed;
-  bottom: 57px;
+  top: 80px;
   right: 20px;
 }
