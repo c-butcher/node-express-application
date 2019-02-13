@@ -4,17 +4,21 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const database = require('./database');
+const session = require('./session');
+const flash = require('connect-flash');
 const app = express();
 
 // Load our environment variables
 require('dotenv').config();
 
 // Configure our environment
+app.use(cookieParser());
+app.use(session());
 app.use(database());
+app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Configure the view engine
