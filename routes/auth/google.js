@@ -39,3 +39,5 @@ router.get('/', passport.authenticate('google', { scope: ['https://www.googleapi
 router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }, (req, res) => {
     res.redirect('/');
 }));
+
+module.exports = router;

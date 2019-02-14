@@ -1,7 +1,11 @@
 doctype html
 html
   head
-    title= title
+    if title
+      title= title
+    else
+      title= process.env.SITE_NAME
+
     link(rel="shortcut icon" type="image/png" href="/images/favicon.ico")
 
     link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous")
@@ -16,16 +20,33 @@ html
         div(class="my-0 mr-md-auto font-weight-normal w-100")
           span(class="bg-primary text-white rounded px-3 py-2 mr-2 float-left") E
           div(class="lh-100 float-left")
-            h6(class="mb-0") #{title}
+            h6(class="mb-0") #{process.env.SITE_NAME}
             small Since #{new Date().getFullYear()}
 
         nav(class="my-2 my-md-0 mr-md-3")
-          a(class="p-2 text-dark" href="#") Features
+          a(class="p-2 text-dark" href="/") Home
 
-        a(class="btn btn-outline-primary" href="#") Login
+        if !user
+          a(class="btn btn-outline-primary" href="/login") Login
+        else
+          a(class="btn btn-outline-primary" href="/login?logout=true") Logout
+
 
     section(class="container")
       block content
+
+    div(class="alerts col-lg-4")
+      if successes
+        each message in successes
+          p(class="alert alert-success alert-dismissible fade show mb-1" role="alert") #{message}
+            button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+              span(aria-hidden="true") &times;
+
+      if errors
+        each message in errors
+          p(class="alert alert-danger alert-dismissible fade show mb-1" role="alert") #{message}
+            button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+              span(aria-hidden="true") &times;
 
     footer(class="footer mt-auto py-3 border-top")
       block footer

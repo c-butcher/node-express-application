@@ -3,9 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
   res.render('index', {
     title: 'Express Application',
-    date: Date.parse('Y'),
+    successes: req.flash('success'),
+    errors: req.flash('error')
   });
 });
 
