@@ -1,4 +1,5 @@
 const createError = require('http-errors');
+const passport = require('passport');
 const express = require('express');
 const validator = require('express-validator');
 const validation = require('./validation');
@@ -10,6 +11,10 @@ const session = require('./session');
 const flash = require('connect-flash');
 const app = express();
 
+// Configure how the user is stored in the session.
+passport.serializeUser((user, done) => { done(null, user); });
+passport.deserializeUser((user, done) => { done(null, user); });
+
 // Load our environment variables
 require('dotenv').config();
 
@@ -19,11 +24,22 @@ app.use(validator());
 app.use(validation());
 app.use(session());
 app.use(database());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Exposes our user object so that we can access it in our templates.
+app.use((req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  }
+
+  next();
+});
 
 // Configure the view engine
 app.set('views', path.join(__dirname, 'views'));

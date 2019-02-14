@@ -26,7 +26,11 @@ html
         nav(class="my-2 my-md-0 mr-md-3")
           a(class="p-2 text-dark" href="/") Home
 
-        a(class="btn btn-outline-primary" href="/login") Login
+        if !user
+          a(class="btn btn-outline-primary" href="/login") Login
+        else
+          a(class="btn btn-outline-primary" href="/login?logout=true") Logout
+
 
     section(class="container")
       block content

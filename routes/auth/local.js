@@ -1,40 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const { query } = require('express-validator/check');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../../models/user');
 
 passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, (username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
-        if (err) { return done(err); }
 
-        if (!user) {
-            User.findOne({ email: username }, (err, user) => {
-                if (err) { return done(err); }
+    Promise.all([
+        User.findOne({ username: username }),
+        User.findOne({ email: username })
 
-                if (!user) {
-                    return done(null, false, {message: 'Incorrect username or password.'});
-                }
-
-                if (!user.validPassword(password)) {
-                    return done(null, false, {message: 'Incorrect username or password.'});
-                }
-
-                return done(null, user);
-            });
+    ]).then(([userOne, userTwo]) => {
+        if (userOne && userOne.validPassword(password)) {
+            return done(null, userOne);
         }
 
-        else if (!user.validPassword(password)) {
-            return done(null, false, {message: 'Incorrect username or password.'});
-
-        } else {
-            return done(null, user);
+        if (userTwo && userTwo.validPassword(password)) {
+            return done(null, userTwo);
         }
+
+        return done(null, false, { message: 'Incorrect login credentials.' });
+
+    }).catch((error) => {
+        return done(null, false, error.msg);
     });
+
 }));
 
-router.get('/', (req, res, next) => {
-    res.render('auth/login', {
+router.get('/', [query('logout').toBoolean()], (req, res, next) => {
+    if (req.query.logout) {
+        console.log("Loggin out");
+        req.logout();
+    }
+
+    return res.render('auth/login', {
         successes: req.flash('success'),
         errors: req.flash('error'),
     });

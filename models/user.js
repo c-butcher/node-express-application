@@ -75,7 +75,7 @@ userSchema.statics.generateSalt = function(length = 16) {
  */
 userSchema.methods.setPassword = function(password) {
     this.salt = this.generateSalt();
-    this.password = this.encryptPassword(password, this.salt);
+    this.password = userSchema.statics.encryptPassword(password, this.salt);
 };
 
 /**
@@ -86,7 +86,7 @@ userSchema.methods.setPassword = function(password) {
  * @returns {boolean}
  */
 userSchema.methods.validPassword = function(password) {
-    return this.password === this.encryptPassword(password, this.salt);
+    return this.password === userSchema.statics.encryptPassword(password, this.salt);
 };
 
 module.exports = mongoose.model('User', userSchema);
