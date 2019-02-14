@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const User = require('../../models/user');
 
 let GoogleAuthCredentials = {
     clientID:     process.env.GOOGLE_CLIENT_ID,
@@ -14,13 +15,25 @@ let GoogleAuthCredentials = {
  *
  */
 passport.use(new GoogleStrategy(GoogleAuthCredentials, function(accessToken, refreshToken, profile, done) {
-
-    // Just to see what type of information we get.
-    console.log(profile);
-
     // Attempt to find or create a user with the supplied Google Identifier.
-    User.findOrCreate({ googleId: profile.id }, (err, user) => {
-        return done(err, user);
+    User.findOne({ googleId: profile.id }).then((user) => {
+        if (user) {
+            return done(null, user);
+        }
+
+        user = new User({
+            googleId: profile.id,
+            googleAccessToken: accessToken,
+            googleRefreshToken: refreshToken,
+            username: profile.displayName.replace(' ', '-').toLowerCase(),
+            enabled: true,
+        });
+
+        user.save((error, user) => {
+            if (error) return done(error, null);
+            return done(null, user);
+        });
+
     });
 }));
 
@@ -36,8 +49,8 @@ router.get('/', passport.authenticate('google', { scope: ['https://www.googleapi
  *
  * Finish authenticating using the Google+ API.
  */
-router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }, (req, res) => {
-    res.redirect('/');
-}));
+router.get('/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+    return res.redirect('/');
+});
 
 module.exports = router;
