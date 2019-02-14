@@ -12,7 +12,7 @@ const userSchema = new Schema({
     salt: String,
     created: { type: Date, default: Date.now },
     lastLogin: { type: Date, default: Date.now },
-    enabled: Boolean,
+    enabled: { type: Boolean, default: false },
 });
 
 /**
@@ -51,11 +51,21 @@ userSchema.statics.findByEmailAndPassword = function(email, password, callback) 
  * Encrypt a plain-text password.
  *
  * @param {string} password
+ * @param {string} salt
  *
  * @returns {string}
  */
 userSchema.statics.encryptPassword = function (password, salt) {
-    return crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
+    return Crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
+};
+
+/**
+ * Generates a random hexadecimal string.
+ *
+ * @param {Number} length
+ */
+userSchema.statics.generateSalt = function(length = 16) {
+    return Crypto.randomBytes(length).toString('hex');
 };
 
 /**
@@ -64,7 +74,7 @@ userSchema.statics.encryptPassword = function (password, salt) {
  * @param {string} password
  */
 userSchema.methods.setPassword = function(password) {
-    this.salt = crypto.randomBytes(16).toString('hex');
+    this.salt = this.generateSalt();
     this.password = this.encryptPassword(password, this.salt);
 };
 
