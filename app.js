@@ -50,6 +50,7 @@ app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/auth/local'));
 app.use('/signup', require('./routes/auth/signup'));
 app.use('/auth/google', require('./routes/auth/google'));
+app.use('/auth/facebook', require('./routes/auth/facebook'));
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
