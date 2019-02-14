@@ -55,7 +55,7 @@ router.post('/', [
 
                     req.flash('success', "Successfully registered your account.");
 
-                    return res.redirect('/profile');
+                    return res.redirect('/login');
                 });
             }
 
