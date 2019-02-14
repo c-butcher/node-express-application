@@ -11,14 +11,11 @@ let FacebookAuthCredentials = {
 };
 
 /**
- * Register PassportJS so that it can handle the Google Authentication Strategy.
+ * Register PassportJS so that it can handle the Facebook Authentication Strategy.
  *
  */
 passport.use(new FacebookStrategy(FacebookAuthCredentials, function(accessToken, refreshToken, profile, done) {
-
-    console.log(profile);
-
-    // Attempt to find or create a user with the supplied Google Identifier.
+    // Attempt to find or create a user with the supplied Facebook Identifier.
     User.findOne({ facebookId: profile.id }).then((user) => {
         if (user) {
             return done(null, user);
