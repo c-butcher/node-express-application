@@ -30,7 +30,6 @@ passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'passwor
 
 router.get('/', [query('logout').toBoolean()], (req, res, next) => {
     if (req.query.logout) {
-        console.log("Loggin out");
         req.logout();
     }
 
